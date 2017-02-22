@@ -84,6 +84,7 @@ namespace University.Courses
         /// </summary>
         /// <param name="student"></param>
         /// <returns>Will throw an indexOutOfRange exception if the student or course is not found or if the course is full</returns>
+        public DateTime EndTime { get { return (startTime.AddHours(creditHours)); } }
         public void AddStudent(Student student)
         {
             if (isFull == false)

@@ -186,7 +186,7 @@
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\_LogInLayout.cshtml" />
     <Content Include="Views\LogIn\LogIn.cshtml" />
-    <Content Include="Views\_StudentLayout.cshtml" />
+    <Content Include="Views\Shared\_StudentLayout.cshtml" />
     <Content Include="Views\LogIn\RegisterStudent.cshtml" />
     <Content Include="Views\Register\StudentPage.cshtml" />
     <Content Include="Views\Register\ViewSchedule.cshtml" />
