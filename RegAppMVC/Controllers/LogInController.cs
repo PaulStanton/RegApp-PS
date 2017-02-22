@@ -7,7 +7,7 @@ using University.Users;
 using University;
 using System.Data.SqlClient;
 using System.Web.Routing;
-
+using RegAppMVC.Models;
 
 namespace RegAppMVC.Controllers
 {
@@ -19,7 +19,7 @@ namespace RegAppMVC.Controllers
             {
                 if (DataConnection.CheckLogInInfo(s) == true)
                 {
-                    TempData["Student"] = s;
+                    CurrentStudent.GetInstance().InitializeStudent(s);
                     return RedirectToAction("StudentPage", "Register");
                 }
                 else

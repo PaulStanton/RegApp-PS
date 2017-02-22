@@ -441,7 +441,7 @@ namespace University
         /// <param name="s"></param>
         /// <param name="connection"></param>
         /// <returns>Will throw an indexoutofrange if student is not found or an invalidoperation exception if it cannot connect or if the passed student object is invalid</returns>
-        public static bool UpdateStduent(int studentID, Student s)
+        public static bool UpdateStudent(int studentID, Student s)
         {
             // The student is invalid in the any of the following scenarios
             if (s == null || string.IsNullOrEmpty(s.FirstName) == true || string.IsNullOrEmpty(s.LastName) == true || string.IsNullOrEmpty(s.Email) == true)
