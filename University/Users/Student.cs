@@ -88,7 +88,7 @@ namespace University.Users
         /// <param name="firstname"></param>
         /// <param name="lastname"></param>
         /// <return>Will throw an indexOutOfRange exception if the student or course is not found</return>
-        public void RemoveStudent(string coursename)
+        public void RemoveCourse(string coursename)
         {
             foreach (var item in schedule)
             {
@@ -105,7 +105,7 @@ namespace University.Users
         /// </summary>
         /// <param name="roster"></param>
         /// <return>Will throw indexOUutOfRangeException if the course does not have enough space or if the student or course is not found</return>
-        public void AddStudents(Dictionary<string,Student> s)
+        public void AddCourses(Dictionary<string,Course> s)
         {
             if (schedule.Count + s.Count <= Global.maxCourses)
             {

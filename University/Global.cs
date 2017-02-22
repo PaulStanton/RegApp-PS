@@ -10,6 +10,7 @@ namespace University
     {
         public static int maxStudents=20;
         public static int maxCourses = 6;
+        public static string currentError = "";
 
         public static string CreateFullName(string first, string last)
         {
@@ -24,6 +25,7 @@ namespace University
             public static string invalidStudent = "Invalid Student";
             public static string invalidCourse = "Invalid Course";
             public static string coundNotConnectToDatabase = "Could Not Connect To Database";
+            public static string invalidLogIn = "Incorrect email or password";
         }
 
     }

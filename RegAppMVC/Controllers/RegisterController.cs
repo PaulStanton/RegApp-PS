@@ -3,15 +3,37 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using University.Users;
 
 namespace RegAppMVC.Controllers
 {
     public class RegisterController : Controller
     {
         // GET: Register
-        public ViewResult ViewSchedule()
+        public ViewResult StudentPage()
         {
-            return View();
+            Student s = (Student)TempData["Student"];
+            return View(s);
+        }
+        public PartialViewResult ViewSchedule ()
+        {
+            return PartialView();
+        }
+        public PartialViewResult StudentInfo()
+        {
+            return PartialView();
+        }
+        public PartialViewResult AddCourse()
+        {
+            return PartialView();
+        }
+        public PartialViewResult DropCourse()
+        {
+            return PartialView();
+        }
+        public PartialViewResult HelpPage()
+        {
+            return PartialView();
         }
     }
 }

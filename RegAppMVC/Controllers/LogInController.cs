@@ -5,6 +5,8 @@ using System.Web;
 using System.Web.Mvc;
 using University.Users;
 using University;
+using System.Data.SqlClient;
+using System.Web.Routing;
 
 
 namespace RegAppMVC.Controllers
@@ -13,16 +15,29 @@ namespace RegAppMVC.Controllers
     {
         public ActionResult CheckLogInInfo(Student s)
             {
-            if (DataConnection.CheckLogInInfo(s) == true)
+            try
             {
-                return RedirectToAction("ViewSchedule", "Register");
+                if (DataConnection.CheckLogInInfo(s) == true)
+                {
+                    TempData["Student"] = s;
+                    return RedirectToAction("StudentPage", "Register");
+                }
+                else
+                {
+                    Global.currentError = Global.Errors.invalidLogIn;
+                    return RedirectToAction("LogIn", "LogIn");
+                }
             }
-            else
+            catch (SqlException e)
+            {
+                Global.currentError = Global.Errors.coundNotConnectToDatabase;
                 return RedirectToAction("LogIn", "LogIn");
+                
+            }
         }
         public ViewResult LogIn()
         {
-            DataConnection.SetConnection("Data Source=demodatabase.clnb0ldm68iw.us-west-2.rds.amazonaws.com,1433;Initial Catalog=RegistrationApp;Persist Security Info=True;User Id=master;Password=password;Encrypt=False;");
+
             return View();
         }
         public PartialViewResult RegisterStudent()

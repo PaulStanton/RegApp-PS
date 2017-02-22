@@ -64,7 +64,7 @@ namespace University.Users
         public string LastName
         {
             get { return lastname; }
-            set { email = value; }
+            set { lastname = value; }
         }
         public string Email
         {

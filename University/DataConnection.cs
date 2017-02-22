@@ -39,26 +39,33 @@ namespace University
         */
         public static bool CheckLogInInfo(Student s)
         {
-            string query = "SELECT * FROM Student";
+            string query = "SELECT * FROM StudentMajorJoin";
 
             using (SqlConnection sqlcon = new SqlConnection(connection))
             {
                 SqlCommand command = new SqlCommand(query, sqlcon);
+                
+                    DataSet ds = new DataSet();
+                    SqlDataAdapter adapter = new SqlDataAdapter();
 
-                sqlcon.Open(); 
-                SqlDataReader reader = command.ExecuteReader();
-                while (reader.Read())
+                    adapter.SelectCommand = new SqlCommand(query, sqlcon);
+
+                    adapter.Fill(ds);
+                foreach (var item in ds.Tables[0].AsEnumerable())
                 {
-                    string email = (string)reader["Email"];
-                    string password = (string)reader["password"];
-                    if (email==s.Email && password == s.Password)
-                    {
-                        reader.Close();
-                        return true;
-                    }
+                    if ((string)item["password"]==s.Password && (string)item["Email"]==s.Email)
+                        {
+                        s.FirstName = (string)item["First Name"];
+                        s.LastName = (string)item["Last Name"];
+                        s.major = (string)item["MajorName"];
+                        s.ID = (int)item[0];
+                        s.AddCourses(getStudentSchedule(s.ID));
+                            return true;
+                        }
                 }
-                reader.Close();
                 return false;
+
+                
             }
         }
         /// <summary>
@@ -211,14 +218,8 @@ namespace University
             {
                 throw new InvalidOperationException(Global.Errors.coundNotConnectToDatabase, e);
             }
-            if (schedule.Count == 0) //Student Not Found
-            {
-                throw new IndexOutOfRangeException(Global.Errors.studentNotFound);
-            }
-            else
-            {
-                return schedule;
-            }
+               return schedule;
+
         }
         /// <summary>
         /// Returns List of students in a given course

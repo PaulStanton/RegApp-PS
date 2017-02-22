@@ -10,10 +10,12 @@
 @using (Html.BeginForm("CheckLogInInfo","LogIn"))
 {
     <div>Email: @Html.TextBoxFor(x => x.Email, new { @placeholder = "your email" }) </div>
-    <div>password: @Html.TextBoxFor(x => x.Password, new { @placeholder = "your password" }) </div>
+    <div>password: @Html.PasswordFor(x => x.Password, new { @placeholder = "your password" }) </div>
     <br />
     <input type="submit" value="LogIn" />
 }
     <button class="btn btn-default" id="Button" type="submit">@Html.ActionLink("New Student","RegisterStudent","LogIn")</button>
+    <br />
+    <p>@University.Global.currentError]</p>
 </div>
 

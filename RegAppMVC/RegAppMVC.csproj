@@ -166,11 +166,13 @@
   <ItemGroup>
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Controllers\AdminController.cs" />
     <Compile Include="Controllers\LogInController.cs" />
     <Compile Include="Controllers\RegisterController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\CourseRegistration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -183,9 +185,14 @@
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\_LogInLayout.cshtml" />
     <Content Include="Views\LogIn\LogIn.cshtml" />
-    <Content Include="Views\_RegisterForCoursesLayout.cshtml" />
+    <Content Include="Views\_StudentLayout.cshtml" />
     <Content Include="Views\LogIn\RegisterStudent.cshtml" />
+    <Content Include="Views\Register\StudentPage.cshtml" />
     <Content Include="Views\Register\ViewSchedule.cshtml" />
+    <Content Include="Views\Register\StudentInfo.cshtml" />
+    <Content Include="Views\Register\AddCourse.cshtml" />
+    <Content Include="Views\Register\DropCourse.cshtml" />
+    <Content Include="Views\Register\HelpPage.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -195,7 +202,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Models\" />
+    <Folder Include="Views\Admin\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\University\University.csproj">
