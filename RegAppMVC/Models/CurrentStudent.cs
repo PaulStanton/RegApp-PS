@@ -12,6 +12,7 @@ namespace RegAppMVC.Models
     public class CurrentStudent:User
     {
         public string major;
+        private int credithours = 0;
         private bool isFullTime;
         public Dictionary<string, Course> schedule = new Dictionary<string, Course>();
         private static CurrentStudent instance = null;
@@ -27,6 +28,11 @@ namespace RegAppMVC.Models
             }
             return instance;
         }
+        public void ResetCurrentStudent()
+        {
+            instance = null;
+        }
+
         public void InitializeStudent (Student s)
         {
             this.ID = s.ID;
@@ -36,12 +42,13 @@ namespace RegAppMVC.Models
             this.password = s.Password;
             this.major = s.major;
             schedule =(s.GetSchedule());
+            CalculateCredits();
         }
         public bool isFull
         {
             get
             {
-                if (schedule.Count >= Global.maxCourses)
+                if (credithours >= Global.maxCredits)
                 {
                     return true;
                 }
@@ -51,6 +58,25 @@ namespace RegAppMVC.Models
                 }
             }
         }
+        public bool FullTime { get {return(isFullTime); }}
+        private void CalculateCredits()
+        {
+            credithours = 0;
+            foreach(var item in schedule)
+            {
+                credithours += item.Value.creditHours;
+            }
+            if (credithours >= 3)
+                isFullTime = true;
+            else
+                isFullTime = false;
+        }
+        public int Credits
+        {
+            get { return credithours; }
+        }
+
+
         public Dictionary<string, Course> GetSchedule()
         {
             return schedule;
@@ -66,6 +92,7 @@ namespace RegAppMVC.Models
             {
                 DataConnection.RegisterStudentForCourse(course.ID, ID);
                 schedule.Add(course.CourseName, course);
+                CalculateCredits();
             }
             else
             {
@@ -81,6 +108,7 @@ namespace RegAppMVC.Models
         {
             DataConnection.DropStudentFromCourse(courseID, ID);
             schedule.Remove(DataConnection.getCourse(courseID).CourseName);
+            CalculateCredits();
         }
         /// <summary>
         /// Will remove the student form the database as well as the local courseRoster given the student object
@@ -91,6 +119,7 @@ namespace RegAppMVC.Models
         {
             DataConnection.DropStudentFromCourse(course.ID, ID);
             schedule.Remove(course.CourseName);
+            CalculateCredits();
         }
         /// <summary>
         /// Will remove the student from the database as well as the local courseRoster given the students first and last name
@@ -106,6 +135,7 @@ namespace RegAppMVC.Models
                 {
                     DataConnection.DropStudentFromCourse(item.Value.ID, ID);
                     schedule.Remove(item.Value.CourseName);
+                    CalculateCredits();
                 }
             }
         }
@@ -117,11 +147,17 @@ namespace RegAppMVC.Models
         /// <return>Will throw indexOUutOfRangeException if the course does not have enough space or if the student or course is not found</return>
         public void AddCourses(Dictionary<string, Course> s)
         {
-            if (schedule.Count + s.Count <= Global.maxCourses)
+            int tempCredits = 0;
+            foreach (var item in s)
+            {
+                tempCredits += item.Value.creditHours;
+            }
+            if (credithours + tempCredits <= Global.maxCredits)
             {
                 foreach (var item in schedule)
                 {
                     AddCourse(item.Value);
+                    CalculateCredits();
                 }
             }
             else
@@ -129,7 +165,17 @@ namespace RegAppMVC.Models
                 throw new IndexOutOfRangeException(Global.Errors.notEnoughSpace);
             }
         }
-
+        public bool CheckForOverlap (Course s)
+        {
+            foreach (var item in schedule)
+            {
+                if (item.Value.startTime<s.EndTime && s.startTime <item.Value.EndTime)
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
         public override string GetInfo()
         {
             StringBuilder info = new StringBuilder(base.ToString());

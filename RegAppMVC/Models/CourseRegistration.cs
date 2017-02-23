@@ -15,6 +15,15 @@ namespace RegAppMVC.Models
         public Dictionary<int, bool> isDropped = new Dictionary<int, bool>();
         public int CourseToAlter { get {return coursetoalter; } set {coursetoalter=value; } }
         public Dictionary<string,Course> courses { get; set; }
+        public bool CheckForCourse(int courseID)
+        {
+            foreach(var item in student.schedule)
+            {
+                if (item.Value.ID == courseID)
+                    return true;
+            }
+            return false;
+        }
 
     }
 }

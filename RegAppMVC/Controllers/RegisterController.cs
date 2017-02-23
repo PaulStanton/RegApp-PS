@@ -25,6 +25,7 @@ namespace RegAppMVC.Controllers
             s.Password = CurrentStudent.GetInstance().Password;
             s.major = CurrentStudent.GetInstance().major;
             s.schedule=(CurrentStudent.GetInstance().GetSchedule());
+            Global.lastpartialView = "ViewSchedule";
             return PartialView(s);
         }
         public PartialViewResult StudentInfo()
@@ -36,6 +37,7 @@ namespace RegAppMVC.Controllers
             s.Password = CurrentStudent.GetInstance().Password;
             s.major = CurrentStudent.GetInstance().major;
             s.schedule=(CurrentStudent.GetInstance().GetSchedule());
+            s.CalculateCredits();
             return PartialView(s);
         }
         public ActionResult UpdateStudentInfo(Student s)
@@ -47,7 +49,8 @@ namespace RegAppMVC.Controllers
             s.ID = CurrentStudent.GetInstance().ID;
             s.major = CurrentStudent.GetInstance().major;
             s.schedule =(CurrentStudent.GetInstance().GetSchedule());
-            DataConnection.UpdateStudent(CurrentStudent.GetInstance().ID, s); 
+            DataConnection.UpdateStudent(CurrentStudent.GetInstance().ID, s);
+            Global.lastpartialView = "StudentInfo";
             return RedirectToAction("StudentPage", "Register");
         }
         public PartialViewResult AddCourse()
@@ -55,13 +58,32 @@ namespace RegAppMVC.Controllers
             CourseRegistration r = new CourseRegistration();
             r.student = new Student(CurrentStudent.GetInstance().FirstName, CurrentStudent.GetInstance().LastName, CurrentStudent.GetInstance().Password, CurrentStudent.GetInstance().Email, CurrentStudent.GetInstance().ID, CurrentStudent.GetInstance().major);
             r.student.schedule = CurrentStudent.GetInstance().GetSchedule();
+            r.student.CalculateCredits();
+            if (r.student.isFull)
+            {
+                Global.currentError = Global.Errors.fullschedule;
+            }
+            else if(Global.currentError != Global.Errors.timeOverlap)
+                Global.currentError = "";
             r.courses = DataConnection.getAllCourses();
             
             return PartialView(r);
         }
-        public ActionResult RegisterCourse()
+        public ActionResult RegisterCourse(CourseRegistration r)
         {
-            return View();
+            Course tempCourse = DataConnection.getCourse(r.CourseToAlter);
+            if (CurrentStudent.GetInstance().CheckForOverlap(tempCourse))
+            {
+                Global.currentError = Global.Errors.timeOverlap;
+            }
+            else
+            {
+                if (Global.currentError != Global.Errors.fullschedule)
+                    Global.currentError = "";
+                CurrentStudent.GetInstance().AddCourse(tempCourse);
+            }
+            Global.lastpartialView = "AddCourse";
+            return RedirectToAction("StudentPage", "Register");
         }
         public PartialViewResult DropCourse()
         {
@@ -80,11 +102,9 @@ namespace RegAppMVC.Controllers
             {
                 CurrentStudent.GetInstance().RemoveCourse(r.CourseToAlter);
             }
+            Global.lastpartialView = "DropCourse";
             return RedirectToAction("StudentPage","Register");
         }
-        public PartialViewResult HelpPage()
-        {
-            return PartialView();
-        }
+
     }
 }

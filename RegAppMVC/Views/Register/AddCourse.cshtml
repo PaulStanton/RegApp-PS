@@ -4,7 +4,8 @@
 <html lang="en">
 @Styles.Render("~/Content/css")
 @Scripts.Render("~/Scripts/jquery")
-<div>Register Courses</div>
+<div><h1>Register For Courses</h1></div>
+<div>@University.Global.currentError</div>
 @using (Html.BeginForm("RegisterCourse", "Register"))
 {
     <table class="table table-striped">
@@ -31,7 +32,16 @@
                     <td>@item.Value.startTime.TimeOfDay</td>
                     <td>@item.Value.EndTime.TimeOfDay</td>
                     <td>@(University.Global.maxStudents-item.Value.GetStudentRoster().Count)</td>
-                    <td>@Html.RadioButtonFor(x => x.CourseToAlter, item.Value.ID)
+                    @{if (University.Global.maxStudents - item.Value.GetStudentRoster().Count > 0 && Model.CheckForCourse(item.Value.ID) == false &&Model.student.Credits+item.Value.creditHours<=University.Global.maxCredits)
+                        {
+                            <td>@Html.RadioButtonFor(x => x.CourseToAlter, item.Value.ID)</td>
+                        }
+                        else
+                        {
+                            <td></td>
+                        }
+                    }
+
                 </tr>
             }
 

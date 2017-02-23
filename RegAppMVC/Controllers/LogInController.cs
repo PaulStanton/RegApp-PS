@@ -38,7 +38,8 @@ namespace RegAppMVC.Controllers
         }
         public ViewResult LogIn()
         {
-
+            Global.currentError = "";
+            CurrentStudent.GetInstance().ResetCurrentStudent();
             return View();
         }
         public PartialViewResult RegisterStudent()

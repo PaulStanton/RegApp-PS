@@ -10,6 +10,7 @@ namespace University.Users
     public class Student : User
     {
         public string major;
+        private int credithours = 0;
         private bool isFullTime;
         public Dictionary<string, Course> schedule = new Dictionary<string, Course>();
             public Student()
@@ -21,11 +22,29 @@ namespace University.Users
             this.major = major;
             isFullTime = false;
         }
+        public bool FullTime { get { return (isFullTime); } }
+        public void CalculateCredits()
+        {
+            credithours = 0;
+            foreach (var item in schedule)
+            {
+                credithours += item.Value.creditHours;
+            }
+            if (credithours >= 3)
+                isFullTime = true;
+            else
+                isFullTime = false;
+        }
+        public int Credits
+        {
+            get { return credithours; }
+            
+        }
         public bool isFull
         {
             get
             {
-                if (schedule.Count >= Global.maxCourses)
+                if (credithours >= Global.maxCredits)
                 {
                     return true;
                 }
@@ -50,6 +69,7 @@ namespace University.Users
             {
                 DataConnection.RegisterStudentForCourse(course.ID, ID);
                 schedule.Add(course.CourseName,course);
+                CalculateCredits();
             }
             else
             {
@@ -63,12 +83,14 @@ namespace University.Users
         /// <return>Will throw an indexOutOfRange exception if the student or course is not found</return>
         public void RemoveCourse(int courseID)
         {
+            CalculateCredits();
             DataConnection.DropStudentFromCourse(courseID, ID);
             foreach (var item in schedule)
             {
                 if (item.Value.ID == courseID)
                 {
                     schedule.Remove(item.Value.CourseName);
+
                 }
             }
         }
@@ -81,6 +103,7 @@ namespace University.Users
         {
             DataConnection.DropStudentFromCourse(course.ID, ID);
             schedule.Remove(course.CourseName);
+            CalculateCredits();
         }
         /// <summary>
         /// Will remove the student from the database as well as the local courseRoster given the students first and last name
@@ -107,8 +130,14 @@ namespace University.Users
         /// <return>Will throw indexOUutOfRangeException if the course does not have enough space or if the student or course is not found</return>
         public void AddCourses(Dictionary<string,Course> s)
         {
-            if (schedule.Count + s.Count <= Global.maxCourses)
+            int tempCredits = 0;
+            foreach (var item in s)
             {
+                tempCredits += item.Value.creditHours;
+                    }
+            if (credithours + tempCredits <= Global.maxCredits)
+            {
+                CalculateCredits();
                 foreach (var item in schedule)
                 {
                     AddCourse(item.Value);
@@ -117,6 +146,19 @@ namespace University.Users
             else
             {
                 throw new IndexOutOfRangeException(Global.Errors.notEnoughSpace);
+            }
+        }
+        public string Status
+        { get
+            {
+                if (isFullTime == true)
+                {
+                    return "FullTime";
+                }
+                else
+                {
+                    return "PartTime";
+                }
             }
         }
 

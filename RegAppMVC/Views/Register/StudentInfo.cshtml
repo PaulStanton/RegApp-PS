@@ -1,7 +1,7 @@
 ﻿@model University.Users.Student
 
 <div>
-    <h1>StudentInfo</h1>
+    <h1>Student Information</h1>
     @using (Html.BeginForm("UpdateStudentInfo", "Register"))
     {
         <div>First Name: @Html.TextBoxFor(Model => Model.FirstName, new { @value =Model.FirstName}) </div>
@@ -9,6 +9,8 @@
         <div>Email: @Html.TextBoxFor(Model => Model.Email, new { @value = Model.Email }) </div>
         <div>Password: @Html.PasswordFor(Model => Model.Password, new { @value = Model.Password }) </div>
         <div>Major: @Model.major  </div>
+        <div>Status: @Model.Status  </div>
+        <div>Number of Credits: @Model.Credits  </div>
         <div>Number of Courses: @Model.GetSchedule().Count() </div>
         <br />
         <input type="submit" value="Submit Changes" />
