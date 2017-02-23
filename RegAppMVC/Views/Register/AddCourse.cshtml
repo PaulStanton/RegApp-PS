@@ -31,8 +31,8 @@
                     <td>@item.Value.creditHours</td>
                     <td>@item.Value.startTime.TimeOfDay</td>
                     <td>@item.Value.EndTime.TimeOfDay</td>
-                    <td>@(University.Global.maxStudents-item.Value.GetStudentRoster().Count)</td>
-                    @{if (University.Global.maxStudents - item.Value.GetStudentRoster().Count > 0 && Model.CheckForCourse(item.Value.ID) == false &&Model.student.Credits+item.Value.creditHours<=University.Global.maxCredits)
+                    <td>@(University.Global.maxStudents - item.Value.GetStudentRoster().Count)</td>
+                    @{if (University.Global.maxStudents - item.Value.GetStudentRoster().Count > 0 && Model.CheckForCourse(item.Value.ID) == false && Model.student.Credits + item.Value.creditHours <= University.Global.maxCredits)
                         {
                             <td>@Html.RadioButtonFor(x => x.CourseToAlter, item.Value.ID)</td>
                         }
@@ -43,10 +43,13 @@
                     }
 
                 </tr>
-            }
+
+               }
+
 
         </tbody>
     </table>
-    <input type="submit" value="Submit" />
-}
+
+    <input type="submit" class="btn btn-success" value="Add Course" />
+ }                 
 </html>

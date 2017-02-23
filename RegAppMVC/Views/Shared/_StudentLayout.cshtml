@@ -10,30 +10,30 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@ViewBag.Title - My ASP.NET Application</title>
+    <title>Revature University Course Registration</title>
 @Styles.Render("~/Content/css")
 @Scripts.Render("~/Scripts/jquery")
 <script src="@Url.Content("~/Scripts/jquery.unobtrusive-ajax.js")" type="text/javascript"></script>
 </head>
 <body>
+
     <div class="navbar navbar-inverse navbar-fixed-top">
         <div class="container">
             <div class="navbar-header">
-
-                @Ajax.ActionLink("Student Info", "StudentInfo", "Register", options)
-                @Ajax.ActionLink("View Schedule", "ViewSchedule", "Register", options)
-                @Ajax.ActionLink("Add Courses", "AddCourse", "Register", options)
-                @Ajax.ActionLink("Drop Courses", "DropCourse", "Register", options)
-                @Html.ActionLink("Log Out","LogIn","LogIn")
-                
-            </div>
+                    @Ajax.ActionLink("Student Info", "StudentInfo", "Register", options)
+                    @Ajax.ActionLink("View Schedule", "ViewSchedule", "Register", options)
+                    @Ajax.ActionLink("Add Courses", "AddCourse", "Register", options)
+                    @Ajax.ActionLink("Drop Courses", "DropCourse", "Register", options)
+                    @Html.ActionLink("Log Out", "LogIn", "LogIn")
+</div>
         </div>
     </div>
     <div class="container body-content">
         @RenderBody()
 
         <hr />
-        <footer></footer>
+        <footer>
+        </footer>
     </div>
 
 </body>

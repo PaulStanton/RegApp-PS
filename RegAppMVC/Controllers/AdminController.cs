@@ -13,5 +13,9 @@ namespace RegAppMVC.Controllers
         {
             return View();
         }
+        public ViewResult AdminPage()
+        {
+            return View();
+        }
     }
 }

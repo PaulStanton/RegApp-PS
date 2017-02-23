@@ -194,6 +194,7 @@
     <Content Include="Views\Register\StudentInfo.cshtml" />
     <Content Include="Views\Register\AddCourse.cshtml" />
     <Content Include="Views\Register\DropCourse.cshtml" />
+    <Content Include="Views\Admin\AdminPage.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -203,7 +204,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Views\Admin\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\University\University.csproj">

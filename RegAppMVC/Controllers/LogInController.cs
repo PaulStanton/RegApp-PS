@@ -15,6 +15,10 @@ namespace RegAppMVC.Controllers
     {
         public ActionResult CheckLogInInfo(Student s)
             {
+            if (s.Email=="Admin"&&s.Password=="1234")
+            {
+                return RedirectToAction("AdminPage", "Admin");
+            }
             try
             {
                 if (DataConnection.CheckLogInInfo(s) == true)
@@ -38,7 +42,6 @@ namespace RegAppMVC.Controllers
         }
         public ViewResult LogIn()
         {
-            Global.currentError = "";
             CurrentStudent.GetInstance().ResetCurrentStudent();
             return View();
         }
