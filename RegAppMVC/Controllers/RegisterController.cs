@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 using University.Users;
 using University;
+using University.Courses;
 using RegAppMVC.Models;
 namespace RegAppMVC.Controllers
 {
@@ -51,7 +52,16 @@ namespace RegAppMVC.Controllers
         }
         public PartialViewResult AddCourse()
         {
-            return PartialView();
+            CourseRegistration r = new CourseRegistration();
+            r.student = new Student(CurrentStudent.GetInstance().FirstName, CurrentStudent.GetInstance().LastName, CurrentStudent.GetInstance().Password, CurrentStudent.GetInstance().Email, CurrentStudent.GetInstance().ID, CurrentStudent.GetInstance().major);
+            r.student.schedule = CurrentStudent.GetInstance().GetSchedule();
+            r.courses = DataConnection.getAllCourses();
+            
+            return PartialView(r);
+        }
+        public ActionResult RegisterCourse()
+        {
+            return View();
         }
         public PartialViewResult DropCourse()
         {
@@ -66,9 +76,10 @@ namespace RegAppMVC.Controllers
         }
         public ActionResult DropStudentFromCourse(CourseRegistration r)
         {
-
-                    CurrentStudent.GetInstance().RemoveCourse(r.CourseToDrop);
-
+            if (r.CourseToAlter >= 0)
+            {
+                CurrentStudent.GetInstance().RemoveCourse(r.CourseToAlter);
+            }
             return RedirectToAction("StudentPage","Register");
         }
         public PartialViewResult HelpPage()

@@ -246,12 +246,11 @@ namespace University
 
                         string first = (string)reader["First Name"];
                         string last = (string)reader["Last Name"];
-                        string password = (string)reader["Email"];
-                        string email = (string)reader["Password"];
+                        string email = (string)reader["email"];
                         string major = (string)reader["MajorName"];
                         int tempid = (int)reader["StudentID"];
 
-                        roster.Add(new Student(first, last, password, email, tempid, major));
+                        roster.Add(new Student(first, last, "", email, tempid, major));
 
 
 
@@ -264,14 +263,49 @@ namespace University
             {
                 throw new InvalidOperationException(Global.Errors.coundNotConnectToDatabase, e);
             }
-            if (roster.Count == 0)//Course Not Found
-            {
-                throw new IndexOutOfRangeException(Global.Errors.courseNotFound);
-            }
-            else
-            {
+
+           
                 return roster;
+            
+        }
+        public static Dictionary<string,Course> getAllCourses()
+        {
+            Dictionary<string, Course> schedule = new Dictionary<string, Course>();
+
+            string query = $"Select * From CourseMajorJoin";
+            try
+            {
+                using (SqlConnection sqlcon = new SqlConnection(connection))
+                {
+                    SqlCommand command = new SqlCommand(query, sqlcon);
+
+                    sqlcon.Open();
+                    SqlDataReader reader = command.ExecuteReader();
+                    while (reader.Read())
+                    {
+
+
+                        string name = (string)reader["CourseName"];
+                        TimeSpan startTime = (TimeSpan)reader["StartTime"];
+                        int creditHours = (int)reader["CreditHours"];
+                        string major = (string)reader["MajorName"];
+                        int courseID = (int)reader["CourseID"];
+
+                        schedule.Add(name, new Course(name, startTime, creditHours, major));
+                        schedule[name].ID = courseID;
+                        schedule[name].setRoster(getCourseRoster(courseID));
+
+
+                    }
+                    reader.Close();
+
+                }
             }
+            catch (InvalidOperationException e)
+            {
+                throw new InvalidOperationException(Global.Errors.coundNotConnectToDatabase, e);
+            }
+            return schedule;
         }
         /*READS (disconnected)
          * getMajorID

@@ -1,2 +1,42 @@
 ﻿@model RegAppMVC.Models.CourseRegistration
-<p>AddCourse</p>
+
+<!DOCTYPE html>
+<html lang="en">
+@Styles.Render("~/Content/css")
+@Scripts.Render("~/Scripts/jquery")
+<div>Register Courses</div>
+@using (Html.BeginForm("RegisterCourse", "Register"))
+{
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Course ID</th>
+                <th>Course Name</th>
+                <th>Credit Hours</th>
+                <th>Start Time</th>
+                <th>End Time</th>
+                <th>Space Available</th>
+                <th>Register For Course</th>
+            </tr>
+        </thead>
+
+
+        <tbody>
+            @foreach (var item in Model.courses)
+            {
+                <tr>
+                    <td>@item.Value.ID</td>
+                    <td>@item.Value.CourseName</td>
+                    <td>@item.Value.creditHours</td>
+                    <td>@item.Value.startTime.TimeOfDay</td>
+                    <td>@item.Value.EndTime.TimeOfDay</td>
+                    <td>@(University.Global.maxStudents-item.Value.GetStudentRoster().Count)</td>
+                    <td>@Html.RadioButtonFor(x => x.CourseToAlter, item.Value.ID)
+                </tr>
+            }
+
+        </tbody>
+    </table>
+    <input type="submit" value="Submit" />
+}
+</html>

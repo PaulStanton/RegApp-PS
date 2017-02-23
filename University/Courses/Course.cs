@@ -167,6 +167,10 @@ namespace University.Courses
                 throw new IndexOutOfRangeException(Global.Errors.notEnoughSpace);
             }
         }
+        public void setRoster(List<Student>roster)
+        {
+            studentRoster = roster;
+        }
     }
 }
 
