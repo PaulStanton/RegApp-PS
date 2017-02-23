@@ -192,8 +192,8 @@
     <Content Include="Views\Register\ViewSchedule.cshtml" />
     <Content Include="Views\Register\StudentInfo.cshtml" />
     <Content Include="Views\Register\AddCourse.cshtml" />
-    <Content Include="Views\Register\DropCourse.cshtml" />
     <Content Include="Views\Register\HelpPage.cshtml" />
+    <Content Include="Views\Register\DropCourse.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

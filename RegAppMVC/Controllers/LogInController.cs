@@ -20,6 +20,7 @@ namespace RegAppMVC.Controllers
                 if (DataConnection.CheckLogInInfo(s) == true)
                 {
                     CurrentStudent.GetInstance().InitializeStudent(s);
+
                     return RedirectToAction("StudentPage", "Register");
                 }
                 else

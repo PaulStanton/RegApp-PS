@@ -5,27 +5,30 @@
 @Styles.Render("~/Content/css")
 @Scripts.Render("~/Scripts/jquery")
 <div>ViewSchedule</div>
-<div class="container-fluid">
-    <div class="row">
-        <div class="col-md-2"></div>
-        <div class="col-md-2">Course ID</div>
-        <div class="col-md-2">Course Name</div>
-        <div class="col-md-2">Credit Hours</div>
-        <div class="col-md-2">Start Time</div>
-        <div class="col-md-2">End TIme</div>
-    </div>
-</div>
-@*@foreach (var item in Model.GetSchedule())
-    {
-        <div class="row">
-            <div class="col-md-2">@i</div>
-            <div class="col-md-2">@item.Value.ID</div>
-            <div class="col-md-2">@item.Value.CourseName</div>
-            <div class="col-md-2">@item.Value.creditHours</div>
-            <div class="col-md-2">@item.Value.startTime</div>
-            <div class="col-md-2">@item.Value.EndTime</div>
-        </div>
-        @i= i + 1;
-    }*@
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Course ID</th>
+            <th>Course Name</th>
+            <th>Credit Hours</th>
+            <th>Start Time</th>
+            <th>End TIme</th>
+        </tr>
+    </thead>
+
+
+    <tbody>
+        @foreach (var item in Model.GetSchedule())
+        {
+            <tr>
+                <td>@item.Value.ID</td>
+                <td>@item.Value.CourseName</td>
+                <td>@item.Value.creditHours</td>
+                <td>@item.Value.startTime.TimeOfDay</td>
+        <td>@item.Value.EndTime.TimeOfDay</td>
+        </tr>
+        }
+</table>
+</tbody>
 </html>
 

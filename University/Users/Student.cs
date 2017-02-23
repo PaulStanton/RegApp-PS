@@ -11,7 +11,7 @@ namespace University.Users
     {
         public string major;
         private bool isFullTime;
-        private Dictionary<string, Course> schedule = new Dictionary<string, Course>();
+        public Dictionary<string, Course> schedule = new Dictionary<string, Course>();
             public Student()
         {
 

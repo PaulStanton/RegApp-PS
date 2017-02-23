@@ -13,7 +13,7 @@ namespace RegAppMVC.Models
     {
         public string major;
         private bool isFullTime;
-        private Dictionary<string, Course> schedule = new Dictionary<string, Course>();
+        public Dictionary<string, Course> schedule = new Dictionary<string, Course>();
         private static CurrentStudent instance = null;
         private CurrentStudent()
         {
@@ -35,7 +35,7 @@ namespace RegAppMVC.Models
             this.Email = s.Email;
             this.password = s.Password;
             this.major = s.major;
-            AddCourses(s.GetSchedule());
+            schedule =(s.GetSchedule());
         }
         public bool isFull
         {
@@ -80,13 +80,7 @@ namespace RegAppMVC.Models
         public void RemoveCourse(int courseID)
         {
             DataConnection.DropStudentFromCourse(courseID, ID);
-            foreach (var item in schedule)
-            {
-                if (item.Value.ID == courseID)
-                {
-                    schedule.Remove(item.Value.CourseName);
-                }
-            }
+            schedule.Remove(DataConnection.getCourse(courseID).CourseName);
         }
         /// <summary>
         /// Will remove the student form the database as well as the local courseRoster given the student object

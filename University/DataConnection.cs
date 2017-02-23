@@ -59,7 +59,7 @@ namespace University
                         s.LastName = (string)item["Last Name"];
                         s.major = (string)item["MajorName"];
                         s.ID = (int)item[0];
-                        s.AddCourses(getStudentSchedule(s.ID));
+                        s.schedule=(getStudentSchedule(s.ID));
                             return true;
                         }
                 }
@@ -155,7 +155,7 @@ namespace University
 
 
                             tempCourse = new Course(name, startTime, creditHours, major);
-
+                            tempCourse.ID = idnum;
                         }
 
                     }
@@ -203,10 +203,10 @@ namespace University
                         TimeSpan startTime = (TimeSpan)reader["StartTime"];
                         int creditHours = (int)reader["CreditHours"];
                         string major = (string)reader["MajorName"];
-
+                        int courseID = (int)reader["CourseID"];
 
                         schedule.Add(name, new Course(name, startTime, creditHours, major));
-
+                        schedule[name].ID = courseID;
 
 
                     }

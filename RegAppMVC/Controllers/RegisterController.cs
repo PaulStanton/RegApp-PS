@@ -17,7 +17,14 @@ namespace RegAppMVC.Controllers
         }
         public PartialViewResult ViewSchedule ()
         {
-            return PartialView();
+            Student s = new Student();
+            s.FirstName = CurrentStudent.GetInstance().FirstName;
+            s.LastName = CurrentStudent.GetInstance().LastName;
+            s.Email = CurrentStudent.GetInstance().Email;
+            s.Password = CurrentStudent.GetInstance().Password;
+            s.major = CurrentStudent.GetInstance().major;
+            s.schedule=(CurrentStudent.GetInstance().GetSchedule());
+            return PartialView(s);
         }
         public PartialViewResult StudentInfo()
         {
@@ -27,7 +34,7 @@ namespace RegAppMVC.Controllers
             s.Email = CurrentStudent.GetInstance().Email;
             s.Password = CurrentStudent.GetInstance().Password;
             s.major = CurrentStudent.GetInstance().major;
-            s.AddCourses(CurrentStudent.GetInstance().GetSchedule());
+            s.schedule=(CurrentStudent.GetInstance().GetSchedule());
             return PartialView(s);
         }
         public ActionResult UpdateStudentInfo(Student s)
@@ -38,7 +45,7 @@ namespace RegAppMVC.Controllers
             CurrentStudent.GetInstance().LastName = s.LastName;
             s.ID = CurrentStudent.GetInstance().ID;
             s.major = CurrentStudent.GetInstance().major;
-            s.AddCourses(CurrentStudent.GetInstance().GetSchedule());
+            s.schedule =(CurrentStudent.GetInstance().GetSchedule());
             DataConnection.UpdateStudent(CurrentStudent.GetInstance().ID, s); 
             return RedirectToAction("StudentPage", "Register");
         }
@@ -48,7 +55,21 @@ namespace RegAppMVC.Controllers
         }
         public PartialViewResult DropCourse()
         {
-            return PartialView();
+            CourseRegistration r = new CourseRegistration();
+            r.student = new Student(CurrentStudent.GetInstance().FirstName, CurrentStudent.GetInstance().LastName, CurrentStudent.GetInstance().Password, CurrentStudent.GetInstance().Email, CurrentStudent.GetInstance().ID, CurrentStudent.GetInstance().major);
+            r.student.schedule = CurrentStudent.GetInstance().GetSchedule();
+            foreach(var item in r.student.schedule)
+            {
+                r.isDropped.Add(item.Value.ID, false);
+            }
+            return PartialView(r);
+        }
+        public ActionResult DropStudentFromCourse(CourseRegistration r)
+        {
+
+                    CurrentStudent.GetInstance().RemoveCourse(r.CourseToDrop);
+
+            return RedirectToAction("StudentPage","Register");
         }
         public PartialViewResult HelpPage()
         {

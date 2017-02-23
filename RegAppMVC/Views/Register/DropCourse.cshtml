@@ -1,3 +1,42 @@
 ﻿@model RegAppMVC.Models.CourseRegistration
 
-<div>DropCourse</div>
+<!DOCTYPE html>
+<html lang="en">
+@Styles.Render("~/Content/css")
+@Scripts.Render("~/Scripts/jquery")
+<div>Drop Courses</div>
+@using (Html.BeginForm("DropStudentFromCourse","Register"))
+{
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Course ID</th>
+                <th>Course Name</th>
+                <th>Credit Hours</th>
+                <th>Start Time</th>
+                <th>End TIme</th>
+                <th>Drop Course</th>
+            </tr>
+        </thead>
+
+
+        <tbody>
+            @foreach (var item in Model.student.GetSchedule())
+            {
+                <tr>
+                    <td>@item.Value.ID</td>
+                    <td>@item.Value.CourseName</td>
+                    <td>@item.Value.creditHours</td>
+                    <td>@item.Value.startTime.TimeOfDay</td>
+                    <td>@item.Value.EndTime.TimeOfDay</td>
+                    <td>@Html.RadioButtonFor(x => x.CourseToDrop, item.Value.ID)
+                </tr>
+            }
+
+        </tbody>
+    </table>
+    <input type="submit" value="Submit" />
+}
+</html>
+
+

@@ -22,6 +22,11 @@ namespace RegAppConsole
             st.Password = "123456";
             st.Email = "123456@gmail.com";
             Console.WriteLine("{0}", DataConnection.CheckLogInInfo(st));
+            Console.WriteLine(st.ID);
+            foreach(var item in st.GetSchedule())
+            {
+                Console.WriteLine(item.Value.ID);
+            }
             Console.ReadLine();
         }
     }
